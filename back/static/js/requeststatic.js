@@ -25,6 +25,8 @@ function placeFirstTweet(response) {
 	function beginPopulating(response) {
 		populateTweets(response, firstTweet);
 	}
+	console.log(firstTweet);
+	console.log([0,0]);
 	$.ajax ({
 		dataType: "JSON",
 		type: "GET",
@@ -77,6 +79,8 @@ function placeTweet(tweet, position) {
 	instance.find('.tweet-text').html = tweet.text;
 	instance.removeClass('.template');
 	grid.append(position);
+	console.log(tweet);
+	console.log(position);
 }
 
 // Checks if there is a valid position around the given tweet
