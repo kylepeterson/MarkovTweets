@@ -20,7 +20,7 @@ function placeFirstTweet(response) {
 	placeTweet(firstTweet, [0, 0]);
 	grid.append([0, 0]);
 	firstTweet.expansions = 0;
-	unvisitedTweets.push(firstTweet));
+	unvisitedTweets.push(firstTweet);
 	// Closure in order to pass in two parameters to populateTweets
 	function beginPopulating(response) {
 		populateTweets(response, firstTweet);
