@@ -7,9 +7,8 @@ $(function() {
 	$.ajax({
 		dataType: "json",
 		type: "GET",
-		url: "http://localhost:5005/",
+		url: "http://localhost:5005/query?query=disruption",
 		contentType: "application/json; charset=utf-8",
-		data: "{query: disruption}",
 		success: placeFirstTweet
 	})
 })
