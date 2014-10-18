@@ -4,39 +4,44 @@ var grid = new Array();
 var unvisitedTweets = new Array();
 
 $(function() {
+	console.log("program begin");
 	$.ajax({
 		dataType: "json",
 		type: "GET",
-		url: "http://localhost:5005/",
+		url: "http://localhost:5005/query",
+		data: "query=disruption",
 		contentType: "application/json; charset=utf-8",
-		data: JSON.stringify({query: "disruption"}),
 		success: placeFirstTweet
 	})
 })
 
 function placeFirstTweet(response) {
+	console.log("placeFirstTweet entered");
 	var firstTweet = chooseRandom(response);
 	// Place initial tweet in upper left corner
 	placeTweet(firstTweet, [0, 0]);
 	grid.append([0, 0]);
 	firstTweet.expansions = 0;
-	unvisitedTweets.push(firstTweet));
+	unvisitedTweets.push(firstTweet);
 	// Closure in order to pass in two parameters to populateTweets
 	function beginPopulating(response) {
 		populateTweets(response, firstTweet);
 	}
+	console.log(firstTweet);
+	console.log([0,0]);
 	$.ajax ({
 		dataType: "JSON",
 		type: "GET",
-		url: "http://localhost:5005/",
+		url: "http://localhost:5005/query",
 		contentType: "application/json; charset=utf-8",
-		data: JSON.stringify({query: firstTweet.query}),
+		data: "query=" . firstTweet.query,
 		success: populateTweets
 	});
 }
 
 // Populates the page with tweets
 function populateTweets(response, parentTweet) {
+	console.log("populateTweets entered");
 	//while (unvisitedTweets.length > 0);
 	// Choose random tweet that is unexpanded
 	var tweetToPlace = chooseRandom(response);
@@ -62,7 +67,7 @@ function populateTweets(response, parentTweet) {
 		type: "GET",
 		url: "http://localhost:5005/",
 		contentType: "application/json; charset=utf-8",
-		data: JSON.stringify({query: nextParentTweet.query}),
+		data: "query=" . nextParentTweet.query,
 		success: populateNext
 	});
 }
@@ -70,6 +75,7 @@ function populateTweets(response, parentTweet) {
 
 // Places the given tweet in the given position
 function placeTweet(tweet, position) {
+	console.log("placeTweet entered");
 	// Clone template and fill it in with given tweets data
 	var instance = $('.tweet .template').clone();
 	instance.find('.user-pic').src = tweet.picture_url;
@@ -77,6 +83,8 @@ function placeTweet(tweet, position) {
 	instance.find('.tweet-text').html = tweet.text;
 	instance.removeClass('.template');
 	grid.append(position);
+	console.log(tweet);
+	console.log(position);
 }
 
 // Checks if there is a valid position around the given tweet
