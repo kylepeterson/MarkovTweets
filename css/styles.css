@@ -4,3 +4,7 @@
 	height: 200px;
 	border-radius: 15px;
 }
+
+.template {
+	display: hidden;
+}
