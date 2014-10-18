@@ -42,7 +42,7 @@ class SearchService(object):
          tweets = soup.findAll("p", { "class" : "js-tweet-text tweet-text" })
          tweets = map(recursiveStrip, tweets)
          tweets = map(lambda tweet : {'text': tweet, 'query': getRandQuery(tweet)}, tweets)
-         tweets = filter(tweet.query.isalpha(), tweets)
+         tweets = filter(lambda tweet : tweet['query'].isalpha(), tweets)
          return self.render_template('results.txt', results=tweets)
 
    """
