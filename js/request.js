@@ -7,8 +7,9 @@ $(function() {
 	$.ajax({
 		dataType: "json",
 		type: "GET",
+		url: "",
 		contentType: "application/json; charset=utf-8",
-		data:
+		data: JSON.stringify({query: "chicken goblin"}),
 		success: placeFirstTweet
 	})
 })
@@ -18,13 +19,17 @@ function placeFirstTweet(response) {
 	// Place initial tweet in upper left corner
 	placeTweet(firstTweet, [0, 0]);
 	grid.append([0, 0]);
-	firstTweet.expansions = 1;
+	firstTweet.expansions = 0;
 	unvisitedTweets.push(firstTweet));
+	// Closure in order to pass in two parameters to populateTweets
+	function beginPopulating(response) {
+		populateTweets(response, firstTweet);
+	}
 	$.ajax ({
 		dataType: "JSON",
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
-		data: //first tweets keyword
+		data: JSON.stringify({query: firstTweet.query}),
 		success: populateTweets
 	});
 }
@@ -40,22 +45,23 @@ function populateTweets(response, parentTweet) {
 		// If a valid random position was found expand to it
 		parentTweet.expansions++;
 		placeTweet(tweetToPlace, expandPosition);
+		unvisitedTweets.append(tweetToPlace);
 	}
 	// If the tweet has expanded twice remove it from consideration for expansion
 	if(parentTweet.expansions >= 2) {
 		unvisitedTweets.remove(parentTweet);
 	}
-
-	function maybe(response) {
-		populateTweets(response, tweetToPlace)
+	var nextParentTweet = chooseRandom(unvisitedTweets);
+	// Closure in order to pass two parameters to recursive function
+	function populateNext(nextResponse) {
+		populateTweets(nextResponse, nextParentTweet);
 	}
-
 	$.ajax ({
 		dataType: "JSON",
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
-		data: //nextTweets Data
-		success: maybe
+		data: JSON.stringify({query: nextParentTweet.query}),
+		success: populateNext
 	});
 }
 
