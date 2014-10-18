@@ -9,7 +9,7 @@ $(function() {
 		dataType: "json",
 		type: "GET",
 		url: "http://localhost:5005/query",
-		data: "{query=disruption}",
+		data: "query=disruption",
 		contentType: "application/json; charset=utf-8",
 		success: placeFirstTweet
 	})
@@ -32,9 +32,9 @@ function placeFirstTweet(response) {
 	$.ajax ({
 		dataType: "JSON",
 		type: "GET",
-		url: "http://localhost:5005/",
+		url: "http://localhost:5005/query",
 		contentType: "application/json; charset=utf-8",
-		data: JSON.stringify({query: firstTweet.query}),
+		data: "query=" . firstTweet.query,
 		success: populateTweets
 	});
 }
@@ -67,7 +67,7 @@ function populateTweets(response, parentTweet) {
 		type: "GET",
 		url: "http://localhost:5005/",
 		contentType: "application/json; charset=utf-8",
-		data: JSON.stringify({query: nextParentTweet.query}),
+		data: "query=" . nextParentTweet.query,
 		success: populateNext
 	});
 }
