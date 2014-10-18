@@ -2,7 +2,6 @@ import os
 from werkzeug.wrappers import Request, Response
 from werkzeug.routing import Map, Rule
 from werkzeug.exceptions import HTTPException, BadRequest
-from TwitterSearch import *
 from oauth import OAUTH
 import urllib2
 import xml.dom
