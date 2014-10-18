@@ -1,0 +1,17 @@
+div {
+	font-family: 'Oxygen', sans-serif;
+	color: transparent;
+   	text-shadow: 0 0 1px #99FFCC;
+   	font-size: 14pt;
+	border-style: solid;
+   	border-color: #b2379d;
+}
+
+.tweet_card {
+	height: 25%;
+	width: 25%;
+}
+
+.user_pic {
+	border-radius: 40px;
+}
