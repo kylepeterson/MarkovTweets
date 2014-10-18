@@ -55,7 +55,7 @@ class SearchService(object):
    def get_photo(self, request):
       word = request.args['word']
       api_key = "9a87335e0794d030aac4c2eace643149"
-      request = "http://flickr.com/services/rest/?method=flickr.photos.search&api_key=" + api_key+ "&text=" + word + "&per_page=1&format=json"
+      request = "http://flickr.com/services/rest/?method=flickr.photos.search&api_key=" + api_key+ "&text=" + word + "&per_page=1&content_type=1&media=photos&format=json"
       contents = urllib2.urlopen(request).read()
       resultDict = json.loads(contents[14:len(contents)-1])
       photoData = resultDict["photos"]["photo"][0]
@@ -63,7 +63,7 @@ class SearchService(object):
       server_id = photoData["server"]
       photo_id = photoData["id"]
       secret = photoData["secret"]
-      photoURL = "https://farm" + str(farm_id) + ".staticflickr.com/" + str(server_id) + "/" + str(photo_id) + "_" + str(secret) + ".jpg"
+      photoURL = "https://farm" + str(farm_id) + ".staticflickr.com/" + str(server_id) + "/" + str(photo_id) + "_" + str(secret) + "_z.jpg"
 
       print photoData
       return Response(photoURL)
