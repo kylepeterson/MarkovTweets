@@ -7,9 +7,9 @@ $(function() {
 	$.ajax({
 		dataType: "json",
 		type: "GET",
-		url: "",
+		url: "http://localhost:5005/",
 		contentType: "application/json; charset=utf-8",
-		data: JSON.stringify({query: "chicken goblin"}),
+		data: JSON.stringify({query: "disruption"}),
 		success: placeFirstTweet
 	})
 })
@@ -28,6 +28,7 @@ function placeFirstTweet(response) {
 	$.ajax ({
 		dataType: "JSON",
 		type: "GET",
+		url: "http://localhost:5005/",
 		contentType: "application/json; charset=utf-8",
 		data: JSON.stringify({query: firstTweet.query}),
 		success: populateTweets
@@ -59,6 +60,7 @@ function populateTweets(response, parentTweet) {
 	$.ajax ({
 		dataType: "JSON",
 		type: "GET",
+		url: "http://localhost:5005/",
 		contentType: "application/json; charset=utf-8",
 		data: JSON.stringify({query: nextParentTweet.query}),
 		success: populateNext
