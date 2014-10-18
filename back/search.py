@@ -37,11 +37,19 @@ class SearchService(object):
             return BadRequest('include a query, dingus')
          contents = urllib2.urlopen(self.twitterBaseURL + query).read()
          soup = BeautifulSoup(contents)
-         tweets = soup.findAll("p", { "class" : "js-tweet-text tweet-text" })
+         tweets = soup.findAll('p', { 'class' : 'js-tweet-text tweet-text' })
+         pics = soup.findAll('img', { 'class' : 'avatar js-action-profile-avatar' })
          tweets = map(recursiveStrip, tweets)
-         tweets = map(lambda tweet : {'text': tweet, 'query': getRandQuery(tweet)}, tweets)
-         tweets = filter(lambda tweet : tweet['query'].isalpha(), tweets)
-         return self.render_template('results.txt', results=tweets)
+
+         json = []
+         i = 0
+         for tweet in tweets:
+            json.append({'text': tweet, 'query': getRandQuery(tweet), 'pic': pics[i]['src']})
+            i += 1
+
+         tweets = filter(lambda tweet : tweet['query'].isalpha(), json)
+         print json
+         return self.render_template('results.txt', results=json)
 
    """
    dispatch requests to appropriate functions above
