@@ -1,0 +1,19 @@
+:host {
+  background-color: blue;
+  height: 60px;
+  margin: 20px;
+  position: relative;
+}
+
+div {
+   height: 100%;
+   width: 100%;
+   box-sizing: border-box;
+}
+
+svg {
+   position: absolute;
+   height: 20px;
+   bottom: -20px;
+   left: 50%;
+}

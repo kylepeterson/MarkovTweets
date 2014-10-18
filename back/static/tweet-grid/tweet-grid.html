@@ -1,0 +1,41 @@
+<link rel="import" href="../tweet-box/tweet-box.html">
+
+<polymer-element name="tweet-grid">
+   <template>
+      <style>
+         :host {
+            width: 100vw;
+            display: block;
+         }
+
+         .row {
+            width: 100%;
+         }
+      </style>
+      <template repeat="{{ row in grid }}">
+         <div class='row' layout horizontal>
+         <template repeat="{{ cell in row }}">
+            <tweet-box flex text="{{ cell }}"></tweet-box>
+         </template>
+         <div>
+      </template>
+   </template>
+   <script>
+
+Polymer('tweet-grid', {
+   created: function() {
+      console.log('here');
+      this.grid = [
+         ['a', 'b', 'c'],
+         ['d', 'e', 'f'],
+         ['g', 'h', 'i'],
+      ]
+   },
+
+   viewHeight: function() {
+      return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+   }
+});
+
+   </script>
+</polymer-element>

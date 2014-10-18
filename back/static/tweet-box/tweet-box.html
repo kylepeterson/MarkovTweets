@@ -1,0 +1,20 @@
+<polymer-element name="tweet-box">
+   <template>
+      <div>{{ text }}</div>
+      <svg height="100%" width="100%">
+         <line x1="0" y1="0" x2="0" y2="40" style="stroke:black;stroke-width:4" />
+      </svg>
+      <link rel="stylesheet" type="text/css" href="tweet-box.css">
+   </template>
+   <script>
+
+Polymer('tweet-box', {
+   publish: {
+      text: 'yo',
+      author: 'a dude',
+      picture: 'httplol'
+   },
+});
+
+   </script>
+</polymer-element>
