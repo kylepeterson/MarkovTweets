@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="/css/styles.css">
+		<link rel="stylesheet" type="text/css" href="../../css/styles.css">
 		<title>Testing Javascript</title>
-		<script src='/js/request.js'></script>
+		<script src='../../js/request.js'></script>
 	</head>
 	<body>
 		<!-- Template for tweet box -->
