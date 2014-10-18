@@ -8,42 +8,67 @@ $(function() {
 		dataType: "json",
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
-		success: populateTweets
+		data:
+		success: placeFirstTweet
 	})
 })
 
-// Populates the page with tweets
-function populateTweets(response) {
+function placeFirstTweet(response) {
 	var firstTweet = chooseRandom(response);
 	// Place initial tweet in upper left corner
 	placeTweet(firstTweet, [0, 0]);
 	grid.append([0, 0]);
 	firstTweet.expansions = 1;
-	unvisitedTweets.push(chooseRandom(response));
-	while (unvisitedTweets.length > 0);
-		// Choose random tweet that is unexpanded
-		var currentTweet = chooseRandom(unvisitedTweets);
-		// Check position for validity
-		var expandPosition = checkForPosition(currentTweet);
-		if(expandPosition != -1) {
-			// If a valid random position was found expand to it
-			currentTweet.expansions++;
-			placeTweet(currentTweet, [expandPosition]);
-		}
-		// If the tweet has expanded twice remove it from consideration for expansion
-		if(currentTweet.expansions >= 2) {
-			unvisitedTweets.remove(currentTweet);
-		}
-	}
+	unvisitedTweets.push(firstTweet));
+	$.ajax ({
+		dataType: "JSON",
+		type: "GET",
+		contentType: "application/json; charset=utf-8",
+		data: //first tweets keyword
+		success: populateTweets
+	});
 }
+
+// Populates the page with tweets
+function populateTweets(response, parentTweet) {
+	//while (unvisitedTweets.length > 0);
+	// Choose random tweet that is unexpanded
+	var tweetToPlace = chooseRandom(response);
+	// Check position for validity
+	var expandPosition = checkForPosition(parentTweet);
+	if(expandPosition != -1) {
+		// If a valid random position was found expand to it
+		parentTweet.expansions++;
+		placeTweet(tweetToPlace, expandPosition);
+	}
+	// If the tweet has expanded twice remove it from consideration for expansion
+	if(parentTweet.expansions >= 2) {
+		unvisitedTweets.remove(parentTweet);
+	}
+
+	function maybe(response) {
+		populateTweets(response, tweetToPlace)
+	}
+
+	$.ajax ({
+		dataType: "JSON",
+		type: "GET",
+		contentType: "application/json; charset=utf-8",
+		data: //nextTweets Data
+		success: maybe
+	});
+}
+
 
 // Places the given tweet in the given position
 function placeTweet(tweet, position) {
+	// Clone template and fill it in with given tweets data
 	var instance = $('.tweet .template').clone();
 	instance.find('.user-pic').src = tweet.picture_url;
 	instance.find('.user-name').html = tweet.author;
 	instance.find('.tweet-text').html = tweet.text;
-	grid(position) = true;
+	instance.removeClass('.template');
+	grid.append(position);
 }
 
 // Checks if there is a valid position around the given tweet
