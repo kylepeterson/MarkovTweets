@@ -1,0 +1,11 @@
+{
+  "results": [
+    {% for tweet in results %}
+    {
+      “text”: "{{ tweet.text }}",
+      "query": "{{ tweet.query }}"
+    }
+    {% if not loop.last %} , {% endif %}
+    {% endfor %}
+  ]
+}
