@@ -9,7 +9,7 @@ $(function() {
 		type: "GET",
 		url: "http://localhost:5005/",
 		contentType: "application/json; charset=utf-8",
-		data: JSON.stringify({query: "disruption"}),
+		data: "{query: disruption}",
 		success: placeFirstTweet
 	})
 })
