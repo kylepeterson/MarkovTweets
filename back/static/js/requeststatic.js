@@ -4,16 +4,19 @@ var grid = new Array();
 var unvisitedTweets = new Array();
 
 $(function() {
+	console.log("program begin");
 	$.ajax({
 		dataType: "json",
 		type: "GET",
-		url: "http://localhost:5005/query?query=disruption",
+		url: "http://localhost:5005/query",
+		data: "{query=disruption}",
 		contentType: "application/json; charset=utf-8",
 		success: placeFirstTweet
 	})
 })
 
 function placeFirstTweet(response) {
+	console.log("placeFirstTweet entered");
 	var firstTweet = chooseRandom(response);
 	// Place initial tweet in upper left corner
 	placeTweet(firstTweet, [0, 0]);
@@ -38,6 +41,7 @@ function placeFirstTweet(response) {
 
 // Populates the page with tweets
 function populateTweets(response, parentTweet) {
+	console.log("populateTweets entered");
 	//while (unvisitedTweets.length > 0);
 	// Choose random tweet that is unexpanded
 	var tweetToPlace = chooseRandom(response);
@@ -71,6 +75,7 @@ function populateTweets(response, parentTweet) {
 
 // Places the given tweet in the given position
 function placeTweet(tweet, position) {
+	console.log("placeTweet entered");
 	// Clone template and fill it in with given tweets data
 	var instance = $('.tweet .template').clone();
 	instance.find('.user-pic').src = tweet.picture_url;
