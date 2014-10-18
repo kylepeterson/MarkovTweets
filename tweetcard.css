@@ -1,4 +1,4 @@
-div {
+.tweet_card {
 	font-family: 'Oxygen', sans-serif;
 	color: transparent;
    	text-shadow: 0 0 1px #99FFCC;
@@ -6,9 +6,6 @@ div {
 	border-style: solid;
    	border-color: #b2379d;
    	padding: 5px;
-}
-
-.tweet_card {
 	height: 25%;
 	width: 25%;
 }

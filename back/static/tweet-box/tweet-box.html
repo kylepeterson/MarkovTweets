@@ -1,9 +1,16 @@
 <polymer-element name="tweet-box">
    <template>
-      <div>{{ text }}</div>
-      <svg height="100%" width="100%">
-         <line x1="0" y1="0" x2="0" y2="40" style="stroke:black;stroke-width:4" />
-      </svg>
+      <div>
+         <div class="tweet_card" on-click="{{ sayMyName }}">
+            <img class="user_pic" src="http://ratemyprofessors.mtvnimages.com/prof/t_Stuart_Reges_498702.jpeg" alt="user pic">
+            Blue boy, worried about the world's eyes Worried every time the sun shines Worried about his haircut Calm down, sweetheart, grow up {{ text }}
+         </div>
+      </div>
+      <template repeat="{{ lineClass in lines | split }}">
+         <svg height="100%" width="100%" class="{{ lineClass }}">
+            <line x1="0" y1="0" x2="0" y2="40" style="stroke:black;stroke-width:4" />
+         </svg>
+      </template>
       <link rel="stylesheet" type="text/css" href="tweet-box.css">
    </template>
    <script>
@@ -12,8 +19,21 @@ Polymer('tweet-box', {
    publish: {
       text: 'yo',
       author: 'a dude',
-      picture: 'httplol'
+      picture: 'httplol',
+      lines: 'right bottom'
    },
+
+   split: function(str) {
+      return str.split(' ');
+   },
+
+   sayMyName: function() {
+      console.log('uhhhh')
+      var url = "https://translate.google.com/translate_tts?tl=en&q=" + this.text;
+      var snd = document.createElement('audio');
+      snd.src = url;
+      snd.play();
+   }
 });
 
    </script>

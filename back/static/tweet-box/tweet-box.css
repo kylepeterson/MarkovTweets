@@ -1,19 +1,62 @@
 :host {
-  background-color: blue;
-  height: 60px;
+  /*height: 60px;*/
   margin: 20px;
   position: relative;
+  cursor: pointer;
 }
 
-div {
+:host > div {
    height: 100%;
    width: 100%;
    box-sizing: border-box;
+   background-color: white;
+   border-radius: 5px;
+   overflow: hidden;
+   border: 1px solid #DDDDDD;
 }
 
 svg {
    position: absolute;
-   height: 20px;
-   bottom: -20px;
+   height: 40px;
+}
+
+.bottom {
+   bottom: -40px;
    left: 50%;
+}
+
+.top {
+   top: -40px;
+   left: 50%;
+}
+
+.left {
+   left: 0px;
+   top: 50%;
+}
+
+.right {
+   left: calc(100% + 40px);
+   top: 50%;
+}
+
+.right, .left {
+   -ms-transform: rotate(90deg); /* IE 9 */
+   -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+   transform: rotate(90deg);
+}
+
+.tweet_card {
+   padding: 10px;
+   font-family: 'Oxygen', sans-serif;
+   color: black;
+   font-size: 14pt;
+}
+
+.user_pic {
+   padding-right: 10px;
+   border-radius: 50%;
+   width: 90px;
+   height: 90px;
+   float: left;
 }
