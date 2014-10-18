@@ -6,6 +6,7 @@ import urllib2
 import xml.dom
 import string
 import random
+import json
 from jinja2 import Environment, FileSystemLoader
 from BeautifulSoup import BeautifulSoup
 
@@ -43,6 +44,22 @@ class SearchService(object):
          tweets = filter(lambda tweet : tweet['query'].isalpha(), tweets)
          return self.render_template('results.txt', results=tweets)
 
+   def get_photo(self, request):
+      word = request.args['word']
+      api_key = "9a87335e0794d030aac4c2eace643149"
+      request = "http://flickr.com/services/rest/?method=flickr.photos.search&api_key=" + api_key+ "&text=" + word + "&per_page=1&format=json"
+      contents = urllib2.urlopen(request).read()
+      resultDict = json.loads(contents[14:len(contents)-1])
+      photoData = resultDict["photos"]["photo"][0]
+      farm_id = photoData["farm"]
+      server_id = photoData["server"]
+      photo_id = photoData["id"]
+      secret = photoData["secret"]
+      photoURL = "https://farm" + str(farm_id) + ".staticflickr.com/" + str(server_id) + "/" + str(photo_id) + "_" + str(secret) + ".jpg"
+
+      print photoData
+      return Response(photoURL)
+
    """
    dispatch requests to appropriate functions above
    """
@@ -53,6 +70,7 @@ class SearchService(object):
       self.url_map = Map([
          Rule('/', endpoint='otherwise'),
          Rule('/query', endpoint="query"),
+         Rule('/photo', endpoint="photo"),
       ])
       self.twitterBaseURL = 'https://twitter.com/search?q='
 
