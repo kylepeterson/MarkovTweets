@@ -5,6 +5,7 @@ div {
    	font-size: 14pt;
 	border-style: solid;
    	border-color: #b2379d;
+   	padding: 5px;
 }
 
 .tweet_card {
@@ -14,4 +15,7 @@ div {
 
 .user_pic {
 	border-radius: 40px;
+	width: 100px;
+	height: 100px;
+	float: left;
 }
