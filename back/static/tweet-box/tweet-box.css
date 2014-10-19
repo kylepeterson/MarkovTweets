@@ -6,18 +6,36 @@
 }
 
 :host > div {
-   height: 100%;
-   width: 100%;
-   box-sizing: border-box;
-   background-color: white;
-   border-radius: 5px;
-   overflow: hidden;
-   border: 1px solid #DDDDDD;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #DDDDDD;
+  position: relative;
 }
 
 svg {
    position: absolute;
    height: 40px;
+}
+
+.bg {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0.2;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  z-index: -1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-image: url(http://ratemyprofessors.mtvnimages.com/prof/t_Stuart_Reges_498702.jpeg)
 }
 
 .bottom {
@@ -47,16 +65,30 @@ svg {
 }
 
 .tweet_card {
-   padding: 10px;
-   font-family: 'Oxygen', sans-serif;
-   color: black;
-   font-size: 14pt;
+  padding: 10px;
+  font-family: 'Oxygen', sans-serif;
+  font-size: 14pt;
+  transition: color 0.2 ease-in-out;
+}
+
+.tweet_card:hover {
+  color: white;
+}
+
+.tweet_card:hover .bg {
+  opacity: 0.8;
+}
+
+.tweet_card:hover .user_pic {
+  background-color: white;
 }
 
 .user_pic {
-   padding-right: 10px;
-   border-radius: 50%;
-   width: 73px;
-   height: 73px;
-   float: left;
+  border: 2px solid transparent;
+  margin-right: 10px;
+  border-radius: 50%;
+  width: 73px;
+  height: 73px;
+  float: left;
+  transition: border-color 0.2s ease-in-out;
 }
