@@ -3,7 +3,7 @@ var idToPos = {};
 var grid = [];
 // Tweets that are placed and have yet to be expanded fully
 var unvisitedTweets = new Array();
-var currentID = 0;
+var currentID = 1;
 
 $(function() {
 	console.log("program begin");
@@ -77,12 +77,14 @@ function populateTweets(response, parentTweet) {
 		}
 		grid[expandPosition[0]][expandPosition[1]] = tweetToPlace.id;
 		gridChanged();
-	}
+	} //else {
+	 //	var index = unvisitedTweets.indexOf(parentTweet);
+	//	unvisitedTweets.splice(index, 1);
+	//}
 	// If the tweet has expanded twice remove it from consideration for expansion
 	if(parentTweet.expansions >= 2) {
 		var index = unvisitedTweets.indexOf(parentTweet);
 		unvisitedTweets.splice(index, 1);
-
 	}
 	var nextParentTweet = chooseRandom(unvisitedTweets);
 	// Closure in order to pass two parameters to recursive function
@@ -136,7 +138,7 @@ function validPos(pos) {
 	}
 	var x = pos[0];
 	var y = pos[1];
-	return pos[1] < 3 && pos[1] >= 0 && pos[0] >= 0 && grid[x][y] == 0 
+	return pos[0] < 3 && pos[0] >= 0 && pos[1] >= 0 && grid[x][y] == 0 
 }
 
 // called everytime the grid is changed
