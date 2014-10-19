@@ -2,7 +2,7 @@
   "results": [
     {% for tweet in results %}
     {
-      “text”: "{{ tweet.text }}",
+      "text": "{{ tweet.text }}",
       "query": "{{ tweet.query }}"
       "pic": "{{ tweet.pic }}"
     }
