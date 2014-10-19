@@ -72,6 +72,9 @@ function populateTweets(response, parentTweet) {
 		placeTweet(tweetToPlace, expandPosition);
 		unvisitedTweets.push(tweetToPlace);
 		idToPos[tweetToPlace.id] = expandPosition;
+		if (expandPosition[1] > grid.length) {
+			fillGrid();
+		}
 		grid[expandPosition[0]][expandPosition[1]] = tweetToPlace.id;
 		gridChanged();
 	}
@@ -136,7 +139,8 @@ function validPos(pos) {
 	return pos[1] < 3 && pos[1] >= 0 && pos[0] >= 0 && grid[x][y] == 0 
 }
 
-function gridChanged () {
+// called everytime the grid is changed
+function gridChanged() {
 
 }
 
