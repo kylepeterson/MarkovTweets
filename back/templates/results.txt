@@ -3,7 +3,7 @@
     {% for tweet in results %}
     {
       "text": "{{ tweet.text }}",
-      "query": "{{ tweet.query }}"
+      "query": "{{ tweet.query }}",
       "pic": "{{ tweet.pic }}"
     }
     {% if not loop.last %} , {% endif %}
