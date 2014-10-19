@@ -28,11 +28,7 @@ Polymer('tweet-box', {
    },
 
    sayMyName: function() {
-      console.log('uhhhh')
-      var url = "https://translate.google.com/translate_tts?tl=en&q=" + this.text;
-      var snd = document.createElement('audio');
-      snd.src = url;
-      snd.play();
+      speak(this.text)
    }
 });
 
