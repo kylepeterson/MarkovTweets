@@ -136,7 +136,7 @@ function validPos(pos) {
 	}
 	var x = pos[0];
 	var y = pos[1];
-	return pos[1] < 3 && pos[1] >= 0 && pos[0] >= 0 && grid[x][y] == 0 
+	return pos[0] < 3 && pos[0] >= 0 && pos[1] >= 0 && grid[x][y] == 0 
 }
 
 // called everytime the grid is changed
