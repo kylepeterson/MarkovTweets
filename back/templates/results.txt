@@ -4,6 +4,7 @@
     {
       "text": "{{ tweet.text }}",
       "query": "{{ tweet.query }}"
+      "pic": "{{ tweet.pic }}"
     }
     {% if not loop.last %} , {% endif %}
     {% endfor %}

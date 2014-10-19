@@ -6,6 +6,7 @@ import urllib2
 import xml.dom
 import string
 import random
+import json
 from jinja2 import Environment, FileSystemLoader
 from BeautifulSoup import BeautifulSoup
 
@@ -37,11 +38,35 @@ class SearchService(object):
             return BadRequest('include a query, dingus')
          contents = urllib2.urlopen(self.twitterBaseURL + query).read()
          soup = BeautifulSoup(contents)
-         tweets = soup.findAll("p", { "class" : "js-tweet-text tweet-text" })
+         tweets = soup.findAll('p', { 'class' : 'js-tweet-text tweet-text' })
+         pics = soup.findAll('img', { 'class' : 'avatar js-action-profile-avatar' })
          tweets = map(recursiveStrip, tweets)
-         tweets = map(lambda tweet : {'text': tweet, 'query': getRandQuery(tweet)}, tweets)
-         tweets = filter(lambda tweet : tweet['query'].isalpha(), tweets)
-         return self.render_template('results.txt', results=tweets)
+
+         json = []
+         i = 0
+         for tweet in tweets:
+            json.append({'text': tweet, 'query': getRandQuery(tweet), 'pic': pics[i]['src']})
+            i += 1
+
+         tweets = filter(lambda tweet : tweet['query'].isalpha(), json)
+         print json
+         return self.render_template('results.txt', results=json)
+
+   def get_photo(self, request):
+      word = request.args['word']
+      api_key = "9a87335e0794d030aac4c2eace643149"
+      request = "http://flickr.com/services/rest/?method=flickr.photos.search&api_key=" + api_key+ "&text=" + word + "&per_page=1&content_type=1&media=photos&format=json"
+      contents = urllib2.urlopen(request).read()
+      resultDict = json.loads(contents[14:len(contents)-1])
+      photoData = resultDict["photos"]["photo"][0]
+      farm_id = photoData["farm"]
+      server_id = photoData["server"]
+      photo_id = photoData["id"]
+      secret = photoData["secret"]
+      photoURL = "https://farm" + str(farm_id) + ".staticflickr.com/" + str(server_id) + "/" + str(photo_id) + "_" + str(secret) + "_z.jpg"
+
+      print photoData
+      return Response(photoURL)
 
    """
    dispatch requests to appropriate functions above
@@ -53,6 +78,7 @@ class SearchService(object):
       self.url_map = Map([
          Rule('/', endpoint='otherwise'),
          Rule('/query', endpoint="query"),
+         Rule('/photo', endpoint="photo"),
       ])
       self.twitterBaseURL = 'https://twitter.com/search?q='
 
