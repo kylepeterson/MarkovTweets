@@ -77,7 +77,10 @@ function populateTweets(response, parentTweet) {
 		}
 		grid[expandPosition[0]][expandPosition[1]] = tweetToPlace.id;
 		gridChanged();
-	}
+	} //else {
+	 //	var index = unvisitedTweets.indexOf(parentTweet);
+	//	unvisitedTweets.splice(index, 1);
+	//}
 	// If the tweet has expanded twice remove it from consideration for expansion
 	if(parentTweet.expansions >= 2) {
 		var index = unvisitedTweets.indexOf(parentTweet);
@@ -125,9 +128,6 @@ function checkForPosition(tweet) {
 			return cur;
 		}
 	}
-	// remove tweet from unvisited tweets if no valid position exist next to it
-	var index = unvisitedTweets.indexOf(tweet);
-	unvisitedTweets.splice(index, 1);
 	return -1;
 }
 
