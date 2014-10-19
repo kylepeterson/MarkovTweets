@@ -53,18 +53,8 @@ class SearchService(object):
          return self.render_template('results.txt', results=json)
 
    def get_photo(self, request):
-      word = request.args['word']
-      api_key = "9a87335e0794d030aac4c2eace643149"
-      request = "http://flickr.com/services/rest/?method=flickr.photos.search&api_key=" + api_key+ "&text=" + word + "&per_page=1&format=json"
-      contents = urllib2.urlopen(request).read()
-      resultDict = json.loads(contents[14:len(contents)-1])
-      photoData = resultDict["photos"]["photo"][0]
-      farm_id = photoData["farm"]
-      server_id = photoData["server"]
-      photo_id = photoData["id"]
-      secret = photoData["secret"]
-      photoURL = "https://farm" + str(farm_id) + ".staticflickr.com/" + str(server_id) + "/" + str(photo_id) + "_" + str(secret) + ".jpg"
-      return Response(photoURL)
+      photoData = json.loads(urllib2.urlopen("http://flickr.com/services/rest/?method=flickr.photos.search&api_key=9a87335e0794d030aac4c2eace643149&text=" + request.args['word'] + "&per_page=1&content_type=1&media=photos&format=json").read()[14:].strip(')'))["photos"]["photo"][0]
+      return Response("https://farm" + str(photoData["farm"]) + ".staticflickr.com/" + str(photoData["server"]) + "/" + str(photoData["id"]) + "_" + str(photoData["secret"]) + "_z.jpg")
 
    """
    dispatch requests to appropriate functions above
