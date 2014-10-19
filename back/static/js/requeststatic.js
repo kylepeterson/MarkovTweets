@@ -82,7 +82,6 @@ function populateTweets(response, parentTweet) {
 	if(parentTweet.expansions >= 2) {
 		var index = unvisitedTweets.indexOf(parentTweet);
 		unvisitedTweets.splice(index, 1);
-
 	}
 	var nextParentTweet = chooseRandom(unvisitedTweets);
 	// Closure in order to pass two parameters to recursive function
@@ -126,6 +125,9 @@ function checkForPosition(tweet) {
 			return cur;
 		}
 	}
+	// remove tweet from unvisited tweets if no valid position exist next to it
+	var index = unvisitedTweets.indexOf(tweet);
+	unvisitedTweets.splice(index, 1);
 	return -1;
 }
 
