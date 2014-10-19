@@ -64,8 +64,6 @@ class SearchService(object):
       photo_id = photoData["id"]
       secret = photoData["secret"]
       photoURL = "https://farm" + str(farm_id) + ".staticflickr.com/" + str(server_id) + "/" + str(photo_id) + "_" + str(secret) + ".jpg"
-
-      print photoData
       return Response(photoURL)
 
    """
