@@ -3,7 +3,7 @@ var idToPos = {};
 var grid = [];
 // Tweets that are placed and have yet to be expanded fully
 var unvisitedTweets = new Array();
-var currentID = 0;
+var currentID = 1;
 
 $(function() {
 	console.log("program begin");
