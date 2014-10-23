@@ -69,6 +69,7 @@ svg {
   font-family: 'Oxygen', sans-serif;
   font-size: 14pt;
   transition: color 0.2 ease-in-out;
+  overflow: hidden;
 }
 
 .tweet_card:hover {

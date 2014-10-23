@@ -1,9 +1,19 @@
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+
 <polymer-element name="tweet-box">
    <template>
       <div>
          <div class="tweet_card" on-click="{{ sayMyName }}">
-            <img class="user_pic" src="http://ratemyprofessors.mtvnimages.com/prof/t_Stuart_Reges_498702.jpeg" alt="user pic">
-            Blue boy, worried about the world's eyes Worried every time the sun shines Worried about his haircut Calm down, sweetheart, grow up {{ text }}
+            <img class="user_pic" src="{{ picture }}" alt="user pic">
+            <template if="{{ loading }}">
+               loading...
+            </template>
+            <template if="{{ !loading && !searchTerm.seed }}">
+               null
+            </template>
+            <template if="{{ !loading && searchTerm.seed }}">
+               {{ text | unescapeHtml }}
+            </template>
             <div class="bg"></div>
          </div>
       </div>
@@ -12,16 +22,52 @@
             <line x1="0" y1="0" x2="0" y2="40" style="stroke:black;stroke-width:4" />
          </svg>
       </template>
+      <core-ajax url="http://localhost:5005/query"
+                 params='{"query":"{{ searchTerm.seed }}"}'
+                 handleAs="json" id="ajax"></core-ajax>
       <link rel="stylesheet" type="text/css" href="tweet-box.css">
    </template>
    <script>
 
 Polymer('tweet-box', {
    publish: {
-      text: 'yo',
-      author: 'a dude',
-      picture: 'httplol',
-      lines: 'right bottom'
+      searchTerm: {
+         seed: null,
+         successor: null,
+      },
+      text: null,
+      picture: 'http://ratemyprofessors.mtvnimages.com/prof/t_Stuart_Reges_498702.jpeg',
+      lines: 'right bottom',
+   },
+
+   observe: {
+      'searchTerm.seed': 'seedChanged'
+   },
+
+   computed: {
+      loading: 'searchTerm.seed && !searchTerm.successor'
+   },
+
+   domReady: function() {
+      this.$.ajax.addEventListener('core-response', this.loadTweet.bind(this));
+   },
+
+   seedChanged: function() {
+      if (this.searchTerm.seed)
+         this.$.ajax.go();
+   },
+
+   loadTweet: function(e) {
+      options = e.detail.response['results'];
+      tweetInfo = options[Math.floor(Math.random() * options.length)];
+      this.text = tweetInfo.text;
+      this.picture = tweetInfo.pic;
+      this.loading = false;
+      this.searchTerm.successor = tweetInfo.query;
+   },
+
+   onError: function(e) {
+      console.log(e)
    },
 
    split: function(str) {
@@ -34,6 +80,12 @@ Polymer('tweet-box', {
       var snd = document.createElement('audio');
       snd.src = url;
       snd.play();
+   },
+
+   unescapeHtml: function(input){
+      var e = document.createElement('div');
+      e.innerHTML = input;
+      return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
    }
 });
 

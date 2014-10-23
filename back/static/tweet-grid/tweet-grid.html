@@ -15,7 +15,7 @@
       <template repeat="{{ row in grid }}">
          <div class='row' layout horizontal>
          <template repeat="{{ cell in row }}">
-            <tweet-box flex text="{{ cell }}"></tweet-box>
+            <tweet-box flex searchTerm="{{ cell }}"></tweet-box>
          </template>
          </div>
       </template>
@@ -26,12 +26,75 @@ Polymer('tweet-grid', {
    created: function() {
       console.log('here');
       this.grid = [
-         ['a', 'b', 'c'],
-         ['d', 'e', 'f'],
-         ['g', 'h', 'i'],
-         ['j', 'k', 'l'],
-         ['m', 'n', 'o'],
-      ]
+         ['a', null, null],
+      ];
+      this.numCols = 3;
+      this.numRows = 4;
+
+      this.grid = [];
+      for (var i = 0; i < this.numRows; i++) {
+         this.grid.push(this.getRow());
+      }
+   },
+
+   getRow: function() {
+      var row = [];
+      for (var j = 0; j < this.numCols; j++)
+         row.push({
+            seed: null,
+            successor: null
+         });
+      return row;
+   },
+
+   domReady: function() {
+      this.grid[0][0].seed = 'mac';
+      setInterval(this.sweepGrid.bind(this), 1000);
+   },
+
+   // Walk through the grid and start loading all the entries that can be loaded
+   // (have a potential parent tweet)
+   sweepGrid: function() {
+      var allFull = true;
+      for (var i = 0; i < this.numRows; i++) {
+         for (var j = 0; j < this.numCols; j++) {
+            if (!this.isSeeded(i, j)) {
+               // find the possible parents
+               var possible = this.getNeighborIndices(i, j).filter(function(pair) {
+                  return this.isLoaded(pair[0], pair[1]);
+               }.bind(this))
+               if (possible.length != 0) {
+                  var randParent = possible[Math.floor(Math.random() * possible.length)];
+                  this.grid[i][j].seed = this.grid[randParent[0]][randParent[1]].successor;
+               }
+               allFull = false;
+            }
+         }
+      }
+      if (allFull) {
+         this.grid.push(this.getRow());
+      }
+   },
+
+   isSeeded: function(row, col) {
+      return this.inBounds(row, col) && this.grid[row][col].seed;
+   },
+
+   isLoaded: function(row, col) {
+      return this.inBounds(row, col) && this.grid[row][col].successor;
+   },
+
+   inBounds: function(row, col) {
+      return row >= 0 && col >= 0 && row < this.numRows && col < this.numCols;
+   },
+
+   getNeighborIndices: function(row, col) {
+      return [
+         [row, col + 1],
+         [row + 1, col],
+         [row, col - 1],
+         [row - 1, col],
+      ];
    },
 
    viewHeight: function() {
