@@ -7,8 +7,8 @@ import xml.dom
 import string
 import random
 import json
-from jinja2 import Environment, FileSystemLoader
 from BeautifulSoup import BeautifulSoup
+from jinja2 import Environment, FileSystemLoader
 
 STOP_WORDS = []
 f = open('stop_words.txt')
@@ -49,7 +49,6 @@ class SearchService(object):
             i += 1
 
          tweets = filter(lambda tweet : tweet['query'].isalpha(), json)
-         print json
          return self.render_template('results.txt', results=json)
 
    def get_photo(self, request):
@@ -62,7 +61,7 @@ class SearchService(object):
    def __init__(self):
       template_path = os.path.join(os.path.dirname(__file__), 'templates')
       self.jinja_env = Environment(loader=FileSystemLoader(template_path),
-                           autoescape=True)
+                           autoescape=False)
       self.url_map = Map([
          Rule('/', endpoint='otherwise'),
          Rule('/query', endpoint="query"),

@@ -6,6 +6,7 @@
          :host {
             width: 100vw;
             display: block;
+            overflow: hidden;
          }
 
          .row {
@@ -15,7 +16,7 @@
       <template repeat="{{ row in grid }}">
          <div class='row' layout horizontal>
          <template repeat="{{ cell in row }}">
-            <tweet-box flex searchTerm="{{ cell }}"></tweet-box>
+            <tweet-box flex searchTerm="{{ cell }}" lines="{{ cell.direction }}"></tweet-box>
          </template>
          </div>
       </template>
@@ -25,9 +26,6 @@
 Polymer('tweet-grid', {
    created: function() {
       console.log('here');
-      this.grid = [
-         ['a', null, null],
-      ];
       this.numCols = 3;
       this.numRows = 4;
 
@@ -72,8 +70,8 @@ Polymer('tweet-grid', {
          }
       }
       if (allFull) {
-         
          this.grid.push(this.getRow());
+         this.numRows++;
       }
    },
 
@@ -87,6 +85,17 @@ Polymer('tweet-grid', {
 
    inBounds: function(row, col) {
       return row >= 0 && col >= 0 && row < this.numRows && col < this.numCols;
+   },
+
+   directionString: function(fromRow, fromCol, toRow, toCol) {
+      if (fromRow < toRow)
+         return 'top';
+      if (fromRow > toRow)
+         return 'bottom';
+      if (fromCol < toCol)
+         return 'left';
+      // fromCol > toCol
+      return 'right';
    },
 
    getNeighborIndices: function(row, col) {
